@@ -1,5 +1,7 @@
 <?php
 session_start();
+$_SESSION['user']='none';
+		
 include("connection.php");
 ?>
 
@@ -42,10 +44,10 @@ include("connection.php");
 				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
 			</div> -->
 			<!-- <span>or use your account</span> -->
-			<input type="email" placeholder="Email" name="lemail"/>
+			<input type="text" placeholder="Username" name="lemail"/>
 			<input type="password" placeholder="Password" name="lpassword"/>
 			
-			<button value="login" name="login">Sign In</button>
+			<button name='login' value="login">Sign In</button>
 		</form>
 	</div>
 	<div class="overlay-container">
@@ -70,16 +72,19 @@ include("connection.php");
 if(isset($_POST['sign_up']) || isset($_POST['login']))
 {
 	$user=$_POST['lemail'];
+	echo $user;
 	$password=$_POST['lpassword'];
-	$query1="select * from requester where username='$user' && password='$password'";
-	$query2="select * from provider where username='$user' && password='$password'";
+	$query1="select * from requester where username='".$user."' && password='".$password."'";
+	#$query2='select * from provider where username='+$user+' && password='+$password;
+	#echo $query1;
+	#echo $conn->query($query1);
 	$result1=$conn->query($query1);
 	$result2=$conn->query($query2);
-
-	if ( $result1->num_rows>0|| $result2->num_rows>0) 
+	#echo 1;
+	if ( mysqli_num_rows ( $result1 )>0|| mysqli_num_rows ( $result2 )>0) 
 	{
 		$_SESSION['user']=$user;
-	  header('Location: 10DER.html');
+	  header('Location: RequesterBoard.php');
 	} 
 	else 
 	{
@@ -88,11 +93,7 @@ if(isset($_POST['sign_up']) || isset($_POST['login']))
 }
 
 
-
 ?>
-
-
-
 
 
 </body>
