@@ -72,17 +72,22 @@ if(isset($_POST['sign_up']) || isset($_POST['login']))
 	$user=$_POST['lemail'];
 	$password=$_POST['lpassword'];
 	$query1="select * from requester where username='$user' && password='$password'";
-	$quer2="select * from provider where username='$user' && password='$password'";
+	$query2="select * from provider where username='$user' && password='$password'";
+	$result1=$conn->query($query1);
+	$result2=$conn->query($query2);
 
-	if ($conn->query($query1) === TRUE || $conn->query($query2) === TRUE ) 
+	if ( $result1->num_rows>0|| $result2->num_rows>0) 
 	{
-	  echo "New record created successfully";
+		$_SESSION['user']=$user;
+	  header('Location: 10DER.html');
 	} 
 	else 
 	{
-	  echo "Error: " . "<br>" . $conn->error;
+	  echo "please enter correct credentials";
 	}
 }
+
+
 ?>
 
 
