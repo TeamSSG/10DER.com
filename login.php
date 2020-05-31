@@ -1,3 +1,8 @@
+<?php
+session_start();
+include("connection.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +19,7 @@
 
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
-		<form action="#">
+		<form action="#" method="post">
 			<h1>Create Account</h1>
 			<!-- <div class="social-container">
 				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -22,14 +27,14 @@
 				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
 			</div> -->
 			<!-- <span>or use your email for registration</span> -->
-			<input type="text" placeholder="Name" />
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
-			<button>Sign Up</button>
+			<input type="text" placeholder="Name" name="sname" />
+			<input type="email" placeholder="Email" name="semail"/>
+			<input type="password" placeholder="Password" name="spassword" />
+			<button name="sign_up">Sign Up</button>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
-		<form action="#">
+		<form action="#" method="post">
 			<h1>Sign in</h1>
 			<!-- <div class="social-container">
 				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -37,10 +42,10 @@
 				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
 			</div> -->
 			<!-- <span>or use your account</span> -->
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
-			<a href="#">Forgot your password?</a>
-			<button onclick="location.href='\cboard.html'">Sign In</button>
+			<input type="email" placeholder="Email" name="lemail"/>
+			<input type="password" placeholder="Password" name="lpassword"/>
+			
+			<button value="login">Sign In</button>
 		</form>
 	</div>
 	<div class="overlay-container">
@@ -61,6 +66,25 @@
 
 
 <script type="text/javascript" src="js/login.js"></script>
+<?php
+if(isset($_POST['sign_up']) || isset($_POST['login']))
+{
+	$user=$_POST['lemail'];
+	$password=$_POST['lpassword'];
+	$query1="select * from requester where username='$user' && password='$password'";
+	$quer2="select * from provider where username='$user' && password='$password'";
+
+	if ($conn->query($query1) === TRUE || $conn->query($query2) === TRUE ) 
+	{
+	  echo "New record created successfully";
+	} 
+	else 
+	{
+	  echo "Error: " . "<br>" . $conn->error;
+	}
+}
+?>
+
 
 </body>
 </html>
