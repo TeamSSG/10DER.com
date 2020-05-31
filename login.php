@@ -86,6 +86,12 @@ if(isset($_POST['sign_up']) || isset($_POST['login']))
 	  echo "please enter correct credentials";
 	}
 }
+<<<<<<< HEAD
+=======
+
+
+?>
+>>>>>>> 0b9ec37cd33603f9fe13057612cb8e5c59a92e08
 
 
 ?>
