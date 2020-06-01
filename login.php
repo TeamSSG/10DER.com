@@ -1,5 +1,7 @@
 <?php
 session_start();
+$_SESSION['user']='none';
+		
 include("connection.php");
 ?>
 
@@ -59,9 +61,11 @@ include("connection.php");
 			</div> -->
 			<!-- <span>or use your account</span> -->
 			<input type="text" placeholder="UserName" name="lname"/>
+
+		
 			<input type="password" placeholder="Password" name="lpassword"/>
 			
-			<button value="login" name="login">Sign In</button>
+			<button name='login' value="login">Sign In</button>
 		</form>
 	</div>
 	<div class="overlay-container">
@@ -115,7 +119,7 @@ if(isset($_POST['sign_up']))
 				{
 					echo "<script>alert('inserted successfully')</script>";
 					$_SESSION['user']=$user;
-	  				header('Location: 10DER.php');
+	  				header('Location: RequesterBoard.php');
 				}
 				else
 				{
@@ -182,9 +186,10 @@ if(isset($_POST['login']))
 		if($pass_decode)
 		{
 			$_SESSION['user']=$luser;
-	  		header('Location: 10DER.php');
+	  		header('Location: RequesterBoard.php');
 
 		}
+
 	} 
 	else 
 	{
@@ -195,11 +200,7 @@ if(isset($_POST['login']))
 }
 
 
-
 ?>
-
-
-
 
 
 </body>
