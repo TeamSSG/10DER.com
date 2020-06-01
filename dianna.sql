@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 31, 2020 at 02:17 PM
+-- Generation Time: Jun 01, 2020 at 01:23 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -24,55 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bid`
---
-
-CREATE TABLE `bid` (
-  `bno` int(11) NOT NULL,
-  `tno` int(11) DEFAULT NULL,
-  `bidder` varchar(20) NOT NULL,
-  `description` varchar(1000) DEFAULT NULL,
-  `title` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `provider`
---
-
-CREATE TABLE `provider` (
-  `username` varchar(20) NOT NULL,
-  `password` varchar(20) DEFAULT NULL,
-  `mobile` varchar(15) DEFAULT NULL,
-  `email` varchar(40) DEFAULT NULL,
-  `aoi` varchar(200) DEFAULT '',
-  `bio` varchar(200) DEFAULT 'Service provider'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `requester`
---
-
-CREATE TABLE `requester` (
-  `username` varchar(20) NOT NULL,
-  `password` varchar(20) DEFAULT NULL,
-  `mobile` varchar(15) DEFAULT NULL,
-  `email` varchar(40) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `requester`
---
-
-INSERT INTO `requester` (`username`, `password`, `mobile`, `email`) VALUES
-('gunjan', 'gunjan', '8340393391', 'gkr5432145@gmail.com');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tender`
 --
 
@@ -82,37 +33,23 @@ CREATE TABLE `tender` (
   `status` int(11) DEFAULT 0,
   `title` varchar(100) DEFAULT NULL,
   `description` varchar(1000) DEFAULT NULL,
-  `start` timestamp NOT NULL DEFAULT current_timestamp(),
-  `end` timestamp NOT NULL DEFAULT current_timestamp(),
+  `start` date DEFAULT NULL,
+  `end` date DEFAULT NULL,
   `creator` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `tender`
+--
+
+INSERT INTO `tender` (`tno`, `aoi`, `status`, `title`, `description`, `start`, `end`, `creator`) VALUES
+(19, 'CLO', 0, 'Uniform tender', 'Lorem Ipsum \r\nDolor Sit Amet', '2020-06-01', '2020-06-04', 'gunjan'),
+(20, 'FUR', 0, 'Furniture tender', 'gamma alpha beta\r\n', '2020-06-13', '2020-06-23', 'gunjan'),
+(21, 'FUR', 0, 'abc', 'asssff', '2020-06-06', '2020-06-19', 'gunjan');
+
+--
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `bid`
---
-ALTER TABLE `bid`
-  ADD PRIMARY KEY (`bno`),
-  ADD KEY `fk2` (`bidder`),
-  ADD KEY `fk3` (`tno`);
-
---
--- Indexes for table `provider`
---
-ALTER TABLE `provider`
-  ADD PRIMARY KEY (`username`),
-  ADD UNIQUE KEY `mobile` (`mobile`);
-
---
--- Indexes for table `requester`
---
-ALTER TABLE `requester`
-  ADD PRIMARY KEY (`username`),
-  ADD UNIQUE KEY `mobile` (`mobile`),
-  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `tender`
@@ -122,15 +59,18 @@ ALTER TABLE `tender`
   ADD KEY `fk` (`creator`);
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- Constraints for table `bid`
+-- AUTO_INCREMENT for table `tender`
 --
-ALTER TABLE `bid`
-  ADD CONSTRAINT `fk2` FOREIGN KEY (`bidder`) REFERENCES `provider` (`username`),
-  ADD CONSTRAINT `fk3` FOREIGN KEY (`tno`) REFERENCES `tender` (`tno`);
+ALTER TABLE `tender`
+  MODIFY `tno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- Constraints for dumped tables
+--
 
 --
 -- Constraints for table `tender`

@@ -1,16 +1,22 @@
 <?php
-session_start();
 
+if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
 //IF USER DID NOT LOGIN IN LOCAL SYSTEM
 if(!$_SESSION['user'] or $_SESSION['user']=='none')
 	header('location: login.php');
 
 
 include("connection.php");
+
+include("tender_create.php");
 ?>
 
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <link rel="icon" href="images\logo1.jpg">
@@ -103,7 +109,8 @@ Yours sincerely
 
 
 <div id="popover" class="bg-light">
-<button id="close">&#10005;</button>
+<form id="create_tender" action="#" method="POST">
+<button type="button" id="close">&#10005;</button>
 <br>
 <h2>Create a 10der..</h2>
 
@@ -128,37 +135,35 @@ Yours sincerely
 	<div class="form-row">
 	<div class="form-group col-md-6">
       <label for="inputState">Bidding opens on:</label>
-      <input type="date" name="start" class="form-control" placeholder="10/04/2000">
+      <input type="date" id="flagger" name="start" class="form-control" placeholder="0/0/0000">
     </div>
 	
 	<div class="form-group col-md-6">
       <label for="inputState">Bidding closes by:</label>
-      <input type="date" name="end" class="form-control" placeholder="10/04/2000">
+      <input type="date" name="end" class="form-control" placeholder="0/0/2000">
     </div>
 	</div>
 </div>
 
-<button id="s1" class="btn bbb btn-primary">Next&nbsp;&gt;</button>
+<button id="s1" type="button" class="btn bbb btn-primary">Next&nbsp;&gt;</button>
 
 
 <div class="container bg-white shadow" id="step2">
 	<div class="form-group ">
       <label for="inputPassword4">Description, Terms and Conditions</label>
-      <textarea rows="9" class="form-control">A Detailed description of what product/service you need from the manufacturer. Also, List out the requirements, amount dispersion mechanism and cancellation norms upon quality-dissatisfaction</textarea>
+      <textarea rows="9" name="description" placeholder="A Detailed description of what product/service you need from the manufacturer. Also, List out the requirements, amount dispersion mechanism and cancellation norms upon quality-dissatisfaction "class="form-control"></textarea>
 	  </div>
 
 </div>
 
-<button id="s2" class="btn bbb btn-primary">Done&nbsp;&#10003;</button>
-
+<button id="s2" type="submit" class="btn bbb btn-primary">Done&nbsp;&#10003;</button>
 
 
 </div>
 
 
 
-
-
+</form>
 </div>
 	
 
@@ -171,21 +176,37 @@ Yours sincerely
 <hr width="95%" align="center">
 
 <?php
+
+//PART A: TENDER TITLE OBTAINER
 $query="select tno,title from tender where creator='".$_SESSION['user']."'";
 $result=$conn->query($query);
 if(mysqli_num_rows ( $result)==0)
 	echo '<br><br><h4 align="center"> Oops&#128532;! You havent fired up any 10ders yet! Press the "new" button to create one! </h4>';
+else
+{
+		while($row = $result -> fetch_assoc())
+	{
+		echo '<br>';
+		echo '<h4 align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#T'.$row['tno'].': '.$row['title'].'</h4>';
+	}
+
+//PART B: TENDER BID OBTAINER
+
+
+
+
+
+}
+
 
 ?>
-<br>
-<h4 align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#T101: Uniform tender</h4>
 
 <div id="create_div">
 <button id="create" >&nbsp;&nbsp;&Dagger;&nbsp;New...&nbsp;&nbsp;</button>
 </div>
 
 
-<ul id="container_list">
+<ul style="list-style: none;" >
 <li>
 <div class="bid">
 <b><span onclick="location.href='bboard.html'" class="sellerid">Kumar_shirts</span><sup class="rating">&nbsp;3.7&#9733;&nbsp;</sup>:-&nbsp;&nbsp;<span class="price">&#8377; 50,000</span></b><br>
@@ -220,9 +241,12 @@ if(mysqli_num_rows ( $result)==0)
 <!--SLIDER ICON--><!--HOVER BUTTON ICON--><!--SLIDER ICON-->
 </div>
 </li>
+</ul>
 <br>
 
 <h4 align="left">#T102: Woodworks tender</h4>
+
+<ul style="list-style: none;" >
 <li>
 <div class="bid">
 <b><span class="sellerid">Plywood_finishers</span><sup class="rating">&nbsp;2.7&#9733;&nbsp;</sup>:-&nbsp;&nbsp;<span class="price">&#8377; 150,000</span></b><br>
@@ -389,8 +413,12 @@ if(mysqli_num_rows ( $result)==0)
 
 <!-- Footer -->
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <script src=".\js\cboard.js"></script>
+<script src=".\js\rb_tender.js" type="text/javascript"></script>
+
 </body>
 </html>
