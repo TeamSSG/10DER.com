@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+///////this hides the error///////
+error_reporting(0);
+
+
+include("connection.php");
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,7 +94,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto ml-4">
       <li class="nav-item active">
-        <a class="nav-link" href="10DER.html">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="10DER.html"><?php if(!$_SESSION['user'] or $_SESSION['user']=='none'){echo "Home";}else{echo $_SESSION['user'];}?> <span class="sr-only">(current)</span></a>
       </li>
   </ul>
   	 <form class="form-inline my-2 my-lg-0 mr-auto frm">
@@ -92,7 +104,12 @@
     <ul class="navbar-nav navbar-auto">
     	  
       <li class="nav-item">
-        <a class="nav-link active mr-4" href=".\login.php">Login</a>
+
+        <a class="nav-link active mr-4" <?php if(!$_SESSION['user'] or $_SESSION['user']=='none'){echo "href='.\login.php'";}else{echo "href='.\logout.php'";}?> >
+            <?php if(!$_SESSION['user'] or $_SESSION['user']=='none'){echo "Login";}else{echo "Logout";}?>
+
+
+        </a>
       </li>
 
        <li class="nav-item dropdown active ml-2 mr-4 ">
