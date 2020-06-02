@@ -113,13 +113,14 @@ if(isset($_POST['sign_up']))
 		if($password===$cpassword)
 		{
 			
-				$insertquery="INSERT INTO $category(username,password,cpassword, mobile, email) VALUES ('$user','$pass','$cpass','$mobile','$email')";
+				$insertquery="INSERT INTO $category(username,password, mobile, email) VALUES ('$user','$pass','$mobile','$email')";
 				$iquery=$conn->query($insertquery);
 				if($iquery)
 				{
 					echo "<script>alert('inserted successfully')</script>";
 					$_SESSION['user']=$user;
-	  				header('Location: RequesterBoard.php');
+	  				if($category=="requester")
+						header('Location: RequesterBoard.php');
 				}
 				else
 				{
@@ -161,7 +162,7 @@ if(isset($_POST['login']))
 	if ( $count1>0) 
 	{
 
-		echo "<script>alert('entered')</script>";
+		#echo "<script>alert('entered')</script>";
 		$email_pass = $result1->fetch_assoc();
 		$db_pass=$email_pass['password'];
 		echo $email_pass['password'];
@@ -170,7 +171,8 @@ if(isset($_POST['login']))
 		if($pass_decode)
 		{
 			$_SESSION['user']=$luser;
-	  		header('Location: 10DER.php');
+			
+	  		header('Location: RequesterBoard.php');
 
 		}
 		else{
@@ -186,7 +188,7 @@ if(isset($_POST['login']))
 		if($pass_decode)
 		{
 			$_SESSION['user']=$luser;
-	  		header('Location: RequesterBoard.php');
+	  		header('Location: 10DER.php');
 
 		}
 
