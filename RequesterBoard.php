@@ -14,7 +14,28 @@ include("connection.php");
 include("tender_create.php");
 ?>
 
-<!DOCTYPE html>
+<style>
+body {
+  min-height: 100vh;
+  padding:0px;
+  margin:0px;
+  border:0px black solid;
+}
+
+#article {
+	min-height: 450px;
+}
+#create_div{
+	padding-bottom:350px;
+}
+footer {
+  position: relative;
+  bottom: 0px;
+  margin-top: 50px;
+  width: 100%;
+  
+}
+</style>
 <html>
 
 <head>
@@ -32,7 +53,7 @@ include("tender_create.php");
 	<link rel="stylesheet" href=".\css\cboard.css">
  
 </head>
-<body>
+<body >
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
  
@@ -105,9 +126,6 @@ Yours sincerely
 <h6 align="center"><button id="ct1" class="btn btn-primary">Sanction</button><button id="ct2" class="btn btn-primary">Cancel</button></h6>
 </div>    
 
-
-
-
 <div id="popover" class="bg-light">
 <form id="create_tender" action="#" method="POST">
 <button type="button" id="close">&#10005;</button>
@@ -150,8 +168,12 @@ Yours sincerely
 
 <div class="container bg-white shadow" id="step2">
 	<div class="form-group ">
-      <label for="inputPassword4">Description, Terms and Conditions</label>
-      <textarea rows="9" name="description" placeholder="A Detailed description of what product/service you need from the manufacturer. Also, List out the requirements, amount dispersion mechanism and cancellation norms upon quality-dissatisfaction "class="form-control"></textarea>
+      <label for="inputPassword4">Description</label>
+      <textarea rows="5" name="description" placeholder="A Detailed description of what product/service you need from the manufacturer. "class="form-control"></textarea>
+	  </div>
+	  <div class="form-group ">
+      <label for="inputPassword4">Terms and Conditions</label>
+      <textarea rows="5" name="tandc" placeholder="List out all conditions relating to the tender, such as money-reimbursement, delay, product-quality, etc.. Also, List out the requirements, amount dispersion mechanism and cancellation norms upon quality-dissatisfaction "class="form-control"></textarea>
 	  </div>
 
 </div>
@@ -166,120 +188,119 @@ Yours sincerely
 </form>
 </div>
 	
-
-<div class="bg-light">
-<article class="container bg-white shadow pt-5">
+<div id="#article"  class="bg-light" style="min-height: 320px;">
+<article  class="container bg-white shadow pt-5" style="min-height: 290px;">
 
 
 
 <h2 align="left"><b>Your active 10ders </b></h2>
 <hr width="95%" align="center">
 
-<?php
-
-//PART A: TENDER TITLE OBTAINER
-$query="select tno,title from tender where creator='".$_SESSION['user']."'";
-$result=$conn->query($query);
-if(mysqli_num_rows ( $result)==0)
-	echo '<br><br><h4 align="center"> Oops&#128532;! You havent fired up any 10ders yet! Press the "new" button to create one! </h4>';
-else
-{
-		while($row = $result -> fetch_assoc())
-	{
-		echo '<br>';
-		echo '<h4 align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#T'.$row['tno'].': '.$row['title'].'</h4>';
-	}
-
-//PART B: TENDER BID OBTAINER
-
-
-
-
-
-}
-
-
-?>
-
-<div id="create_div">
+<div id="create_div" style="">
 <button id="create" >&nbsp;&nbsp;&Dagger;&nbsp;New...&nbsp;&nbsp;</button>
 </div>
 
+<?php
 
-<ul style="list-style: none;" >
-<li>
-<div class="bid">
-<b><span onclick="location.href='bboard.html'" class="sellerid">Kumar_shirts</span><sup class="rating">&nbsp;3.7&#9733;&nbsp;</sup>:-&nbsp;&nbsp;<span class="price">&#8377; 50,000</span></b><br>
-<span class="subject">First quality shirts will be printed with ease</span>
-<span class="description">We can print good quality shirts within stipulated amount. We may offer shirts in sizes X, M, L and XL. Please contact us for further details.</span>
-<button class="kn">&nbsp;&#9432;&nbsp;<i>Know more&nbsp;&nbsp;</i></button>
-<button class="procure"><i>&nbsp;&#10004;&nbsp;&nbsp;Procure&nbsp;&nbsp;</i></button>
-<button class="shortlist"><i>&nbsp;&#10710;&nbsp;&nbsp;shortlist&nbsp;&nbsp;</i></button>
-<!--SLIDER ICON--><!--HOVER BUTTON ICON--><!--SLIDER ICON-->
-</div>
-</li>
-<li>
-<div class="bid">
-<b><span class="sellerid">Parvathi._.dressers</span><sup class="rating">&nbsp;4.7&#9733;&nbsp;</sup>:-&nbsp;&nbsp;<span class="price">&#8377; 70,000</span></b><br>
-<span class="subject">Proffesional dressers for schoolchildren</span>
-<span class="description">Since there are 1000+ students in the school, fabric and stitching costs are high. Neverthless, we will offer first class quality.</span>
-<button class="kn">&nbsp;&#9432;&nbsp;<i>Know more&nbsp;&nbsp;</i></button>
-<button class="procure"><i>&nbsp;&#10004;&nbsp;&nbsp;Procure&nbsp;&nbsp;</i></button>
-<button class="shortlist"><i>&nbsp;&#10710;&nbsp;&nbsp;shortlist&nbsp;&nbsp;</i></button>
-<!--SLIDER ICON--><!--HOVER BUTTON ICON--><!--SLIDER ICON-->
-</div>
-</li>
+//PART A: TENDER TITLE OBTAINER
+$query="select tno,title,start,status from tender where creator='".$_SESSION['user']."' and 1 order by status desc";
+$result=$conn->query($query);
+if($result===false||mysqli_num_rows ( $result)==0)
+{
+	echo '<br><br><h4 align="center"> Oops&#128532;! You havent fired up any 10ders yet! Press the "new" button to create one! </h4>';
 
-<li>
-<div class="bid">
-<b><span class="sellerid">the_basic.uniformists</span><sup class="rating">&nbsp;4.9&#9733;&nbsp;</sup>:-&nbsp;&nbsp;<span class="price">&#8377; 75,000</span></b><br>
-<span class="subject">uniform providers for your school for more than 30 years</span>
-<span class="description">Quality is our concern. We provide blazers, skirts, shirts, trousers and sports pants that last long</span>
-<button class="kn">&nbsp;&#9432;&nbsp;<i>Know more&nbsp;&nbsp;</i></button>
-<button class="procure"><i>&nbsp;&#10004;&nbsp;&nbsp;Procure&nbsp;&nbsp;</i></button>
-<button class="shortlist"><i>&nbsp;&#10710;&nbsp;&nbsp;shortlist&nbsp;&nbsp;</i></button>
-<!--SLIDER ICON--><!--HOVER BUTTON ICON--><!--SLIDER ICON-->
-</div>
-</li>
-</ul>
-<br>
+}
+else
+{
 
-<h4 align="left">#T102: Woodworks tender</h4>
+	while($row = $result -> fetch_assoc())
+	{
+		echo '<br>';
+		echo '<h4 align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#T'.$row['tno'].': '.$row['title'].'</h4>';
+		
+		$v=date_create($row['start']);
+		$vv=date_create();
+		#echo $v,$vv;
+		//PART B: TENDER BID OBTAINER
+		if($row['status']==0)
+		{
+echo '<ul style="list-style: none;" ><li><div class="bid">
 
-<ul style="list-style: none;" >
-<li>
-<div class="bid">
-<b><span class="sellerid">Plywood_finishers</span><sup class="rating">&nbsp;2.7&#9733;&nbsp;</sup>:-&nbsp;&nbsp;<span class="price">&#8377; 150,000</span></b><br>
-<span class="subject">Doors and windows</span>
-<span class="description">Wood and glass finishings for doors and windows in your school can be done at offer price.</span>
-<button class="kn">&nbsp;&#9432;&nbsp;<i>Know more&nbsp;&nbsp;</i></button>
-<button class="procure"><i>&nbsp;&#10004;&nbsp;&nbsp;Procure&nbsp;&nbsp;</i></button>
-<button class="shortlist"><i>&nbsp;&#10710;&nbsp;&nbsp;shortlist&nbsp;&nbsp;</i></button>
-<!--SLIDER ICON--><!--HOVER BUTTON ICON--><!--SLIDER ICON-->
-</div>
-</li>
+<span class="subject" style="color:#333333;"><i>This tender has been <b>closed</b>.</i></span>
 
-<li>
-<div class="bid">
-<b><span class="sellerid">Tree_house</span><sup class="rating">&nbsp;4.7&#9733;&nbsp;</sup>:-&nbsp;&nbsp;<span class="price">&#8377; 225,000</span></b><br>
-<span class="subject">Teakwood furnishings</span>
-<span class="description">Schoolbenches, doors, cupboards, beds and cots, and all other wooden material can be made with high quality teakwood</span>
-<button class="kn">&nbsp;&#9432;&nbsp;<i>Know more&nbsp;&nbsp;</i></button>
-<button class="procure"><i>&nbsp;&#10004;&nbsp;&nbsp;Procure&nbsp;&nbsp;</i></button>
-<button class="shortlist"><i>&nbsp;&#10710;&nbsp;&nbsp;shortlist&nbsp;&nbsp;</i></button>
-<!--SLIDER ICON--><!--HOVER BUTTON ICON--><!--SLIDER ICON-->
-</div>
-</li>
-</ul>
+<button class="kn"  style="background-color: #222222; margin-right: 0px;position:relative;bottom:5px;" onclick="location.href =\'tender_info.php?tno='.$row['tno'].'\';">&nbsp;&#9432;&nbsp;<i>Know more&nbsp;&nbsp;</i></button>
+
+
+</div></li></ul><br><br>';
+		}
+		else if($vv<$v)
+		{
+			
+echo '<ul style="list-style: none;" ><li><div class="bid">
+
+<span class="subject" style="color:#333333;"><i>This tender will go live in <b style="color: #8E44AD;">'.date_diff($vv,$v)->format("%R%a days").' </b>.</i></span>
+
+<button class="kn"  style="background-color: #8E44AD; margin-right: 0px;position:relative;bottom:5px;" onclick="location.href =\'tender_info.php?tno='.$row['tno'].'\';">&nbsp;&#9432;&nbsp;<i>Know more&nbsp;&nbsp;</i></button>
+
+
+</div></li></ul><br><br>';
+		}
+		
+		 
+		else
+		{
+			//echo '<ul style="list-style: none;" >';
+			$querysub="select * from bid where 1 and tno=".$row['tno']." ORDER BY amount ASC ";
+			$resultsub=$conn->query($querysub);
+			if($resultsub===false||mysqli_num_rows($resultsub)==0)
+			{
+				echo '<ul style="list-style: none;" ><li><div class="bid">
+
+<span class="subject" style="color:#333333;" ><i>Nobody has bidded yet. <b style="color: #008800">Good things take time!</b></i></span>
+
+<button class="kn"  style="background-color: #00AA55; margin-right: 0px;position:relative;bottom:5px;" onclick="location.href = \'tender_info.php?tno='.$row['tno'].'\';">&nbsp;&#9432;&nbsp;<i>Know more&nbsp;&nbsp;</i></button>
+
+
+</div></li></ul><br><br>';
+			}
+			else
+			{
+				echo '<ul style="list-style: none;" >';
+				while($rowsub = $resultsub -> fetch_assoc())
+				{
+				echo '<li><div class="bid"><b><span class="sellerid">'.$rowsub['bidder'].'</span><span style="font-size: large;">&nbsp;:-&nbsp;&nbsp;</span>
+					<span class="price">&#8377;'.$rowsub['amount'].'</span></b><br>
+					<span class="subject" style="color: #333333;"><b>'.$rowsub['subject'].'</b></span>
+					<span class="description"><i>'.$rowsub['description'].'</i></span>
+					<button class="kn">&nbsp;&#9432;&nbsp;<i>Know more&nbsp;&nbsp;</i></button>
+					<button class="procure"><i>&nbsp;&#10004;&nbsp;&nbsp;Procure&nbsp;&nbsp;</i></button>
+					<button class="shortlist" style="background-color: #FFA320;"><i>&nbsp;&#10710;&nbsp;&nbsp;shortlist&nbsp;&nbsp;</i></button>
+					<!--SLIDER ICON--><!--HOVER BUTTON ICON--><!--SLIDER ICON-->
+					</div>
+					</li>';
+	
+				}
+				echo '</ul><br><br>';
+			}
+			
+			//echo '</ul><br><br>';
+		}
+	}
+
+}
+?>
 
 </article>
+
+
+
 </div>
 
 
 <!-- ///////////////////////////////////footer//////////////////////////////// -->
 
 
-<footer class="page-footer font-small mdb-color pt-4 bg-dark text-white">
+<footer  class="page-footer font-small mdb-color pt-4 bg-dark text-white">
 
   <!-- Footer Links -->
   <div class="container text-center text-md-left">
@@ -413,9 +434,9 @@ else
 
 <!-- Footer -->
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <script src=".\js\cboard.js"></script>
 <script src=".\js\rb_tender.js" type="text/javascript"></script>

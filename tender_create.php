@@ -12,16 +12,22 @@ if(isset($_POST['title'])&&isset($_SESSION['user'])&&($_SESSION['user']!='none')
 	$aoi=substr($_POST['categ'],0,3);
 	$start=$_POST['start'];
 	$end=$_POST['end'];
-	$status=0;
+	$status=1;
 	$creator=$_SESSION['user'];
 	$description=$_POST['description'];
+	$tandc=$_POST['tandc'];
 	if($start==""||$start=="0000-00-00")
 	{
 		;
 	}
 	else
 	{
-	$sql = "INSERT INTO tender (title, aoi, start, end, status, creator, description) VALUES ('".$title."','".$aoi."','".$start."','".$end."',".$status.",'".$creator."','".$description."')";
+		
+		$v=date_create($end);
+		$vv=date_create();
+		if($vv>$v)
+			$status=0;
+	$sql = "INSERT INTO tender (title, aoi, start, end, status, creator, description,tandc) VALUES ('".$title."','".$aoi."','".$start."','".$end."',".$status.",'".$creator."','".$description."','".$tandc."')";
 	echo $sql;
 	if ($conn->query($sql) === TRUE) 
 		echo "yes";
