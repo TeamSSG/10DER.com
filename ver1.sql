@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 01, 2020 at 04:51 AM
+-- Generation Time: Jun 02, 2020 at 03:58 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -36,6 +36,14 @@ CREATE TABLE `bid` (
   `bidder` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `bid`
+--
+
+INSERT INTO `bid` (`bno`, `amount`, `description`, `subject`, `tno`, `bidder`) VALUES
+(52, 5000, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Donec enim diam vulputate ut pharetra sit amet aliquam. Est velit egestas dui id ornare arcu odio ut sem. Varius duis at consectetur lorem donec massa. Pellentesque elit eget gravida cum sociis natoque penatibus et magnis. Nulla facilisi cras fermentum odio eu feugiat pretium nibh. Fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate sapien. Donec massa sapien faucibus et molestie ac feugiat sed. Euismod in pellentesque massa placerat duis ultricies. Ultrices dui sapien eget mi proin sed libero enim sed. Sit amet luctus venenatis lectus magna.', 'Subject 001:- IDK what to type here', 32, 'DB_Shirts'),
+(67, 5750, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Habitant morbi tristique senectus et netus et. Lobortis elementum nibh tellus molestie nunc non blandit massa. Aenean et tortor at risus viverra adipiscing at. Mauris rhoncus aenean vel elit scelerisque mauris. Dolor sit amet consectetur adipiscing. At quis risus sed vulputate. Sit amet massa vitae tortor condimentum. At erat pellentesque adipiscing commodo. Justo nec ultrices dui sapien eget mi proin sed. Donec ultrices tincidunt arcu non sodales neque sodales ut etiam. Dui faucibus in ornare quam viverra orci. Mauris nunc congue nisi vitae. A diam sollicitudin tempor id. Pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada. Aliquet enim tortor at auctor urna nunc. Mollis aliquam ut porttitor leo a diam sollicitudin tempor id. Bibendum arcu vitae elementum curabitur. Mauris ultrices eros in cursus turpis. Odio tempor orci dapibus ultrices in.', 'BOND... JAMES BOND... BOOM... bang!!', 32, 'DB_Shirts');
+
 -- --------------------------------------------------------
 
 --
@@ -50,6 +58,13 @@ CREATE TABLE `provider` (
   `aoi` varchar(200) DEFAULT '',
   `bio` varchar(200) DEFAULT 'Service provider'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `provider`
+--
+
+INSERT INTO `provider` (`username`, `password`, `mobile`, `email`, `aoi`, `bio`) VALUES
+('DB_Shirts', 'db_shirts', '8340393393', 'gkr5432155@gmail.com', 'CLO,FUR', 'Service provider');
 
 -- --------------------------------------------------------
 
@@ -83,10 +98,21 @@ CREATE TABLE `tender` (
   `status` int(11) DEFAULT 0,
   `title` varchar(100) DEFAULT NULL,
   `description` varchar(1000) DEFAULT NULL,
-  `start` timestamp NOT NULL DEFAULT current_timestamp(),
-  `end` timestamp NOT NULL DEFAULT current_timestamp(),
-  `creator` varchar(20) DEFAULT NULL
+  `start` date DEFAULT NULL,
+  `end` date DEFAULT NULL,
+  `creator` varchar(20) DEFAULT NULL,
+  `tandc` varchar(2000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tender`
+--
+
+INSERT INTO `tender` (`tno`, `aoi`, `status`, `title`, `description`, `start`, `end`, `creator`, `tandc`) VALUES
+(29, 'CLO', 0, 'School uniform tender', 'Lorem ipsum', '2020-05-29', '2020-06-01', 'gunjan', 'Dolor sit amet'),
+(30, 'CLO', 1, 'Second Uniform Tender', 'aaa', '2020-06-01', '2020-06-04', 'gunjan', 'vvvv'),
+(31, 'FUR', 1, 'Test03 another tender', 'anndn', '2020-06-04', '2020-06-12', 'gunjan', 'ssmdvm'),
+(32, 'FUR', 1, 'Guest House furniture', 'snnfnv', '2020-06-01', '2020-06-16', 'gunjan', 'fbbfmkm');
 
 --
 -- Indexes for dumped tables
@@ -130,13 +156,13 @@ ALTER TABLE `tender`
 -- AUTO_INCREMENT for table `bid`
 --
 ALTER TABLE `bid`
-  MODIFY `bno` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `bno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `tender`
 --
 ALTER TABLE `tender`
-  MODIFY `tno` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- Constraints for dumped tables
