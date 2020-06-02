@@ -8,9 +8,11 @@ if(!isset($_SESSION))
 if(!$_SESSION['user'] or $_SESSION['user']=='none')
 	header('location: login.php');
 
-
 include("connection.php");
 
+			setcookie ("user",$_SESSION['user'],time()+ 3600);
+	  		
+			setcookie ("category","requester",time()+ 3600);
 include("tender_create.php");
 ?>
 
@@ -43,11 +45,10 @@ footer {
 <link rel="icon" href="images\logo1.jpg">
 	
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width-device-width, initial-scale-1.0">
 	<meta http_equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-	<title>Your C-Board</title>
+	<title>Dashboard | <?php echo $_SESSION['user'];?></title>
 	
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href=".\css\cboard.css">
@@ -65,7 +66,7 @@ footer {
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto ml-4">
       <li class="nav-item active">
-        <a class="nav-link" href="10DER.html">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="10DER.php">Home <span class="sr-only">(current)</span></a>
       </li>
   </ul>
   	 <form class="form-inline my-2 my-lg-0 mr-auto frm">
@@ -75,7 +76,7 @@ footer {
     <ul class="navbar-nav navbar-auto">
     	  
       <li class="nav-item">
-        <a class="nav-link active mr-4" href=".\loginnew.html"><?php echo $_SESSION['user']; ?></a>
+        <a class="nav-link active mr-4" href=".\logout.php"><?php echo $_SESSION['user']; ?></a>
       </li>
 
        <li class="nav-item dropdown active ml-2 mr-4 ">

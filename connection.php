@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "myDB";
+$dbname = "ver1";
 
 // Create connection
 $conn = new mysqli($servername, $username,$password, $dbname);
@@ -11,6 +11,10 @@ $conn = new mysqli($servername, $username,$password, $dbname);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
+
+
+#1$2y$10$R7V5UR8M0K8Rp
+#$2y$10$R7V5UR8M0K8Rp
 
 
 ?>

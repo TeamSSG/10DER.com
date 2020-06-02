@@ -3,15 +3,27 @@ session_start();
 $_SESSION['user']='none';
 		
 include("connection.php");
+if(isset($_COOKIE['user']))
+{
+	$_SESSION['user']=$_COOKIE['user'];
+	if($_COOKIE['category']==="requester")
+	header('Location: RequesterBoard.php');
+	else
+	header('Location: ProviderBoard.php');
+
+
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<link rel="icon" href="images\logo1.jpg">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width-device-width, initial-scale=1.8">
 	<meta http-equiv="X-UA-Compatible" content="ie-edge">
-	<title>Sliding_login_page</title>
+	<title>10DER | Walk In</title>
 	<link rel="stylesheet" type="text/css" href="css/login.css">
 	
 	<link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
@@ -64,7 +76,7 @@ include("connection.php");
 
 		
 			<input type="password" placeholder="Password" name="lpassword"/>
-			
+	
 			<button name='login' value="login">Sign In</button>
 		</form>
 	</div>
@@ -119,8 +131,17 @@ if(isset($_POST['sign_up']))
 				{
 					echo "<script>alert('inserted successfully')</script>";
 					$_SESSION['user']=$user;
+					
+					#COOKIE EXPIRES IN 60*60 seconda= 1 Hour
 	  				if($category=="requester")
+					{
 						header('Location: RequesterBoard.php');
+					}
+					else
+					{
+						header('Location: ProviderBoard.php');
+					
+					}
 				}
 				else
 				{
@@ -156,7 +177,7 @@ if(isset($_POST['login']))
 	$result2=$conn->query($query2);
 	$count1=$result1->num_rows;
 	$count2=$result2->num_rows;
-	echo "$count1";
+	
 
 
 	if ( $count1>0) 
@@ -165,18 +186,18 @@ if(isset($_POST['login']))
 		#echo "<script>alert('entered')</script>";
 		$email_pass = $result1->fetch_assoc();
 		$db_pass=$email_pass['password'];
-		echo $email_pass['password'];
+		
 		$pass_decode=password_verify($lpassword,$db_pass);
-		echo "$pass_decode";
 		if($pass_decode)
 		{
 			$_SESSION['user']=$luser;
 			
-	  		header('Location: RequesterBoard.php');
+						
+			header('Location: RequesterBoard.php');
 
 		}
 		else{
-			echo "<script>alert('unable to encode')</script>";
+			echo "<script>alert('Aww, snap! Your credentials might be incorrect, Try again!')</script>";
 
 		}
 	}
@@ -187,17 +208,24 @@ if(isset($_POST['login']))
 		$pass_decode=password_verify($lpassword, $db_pass);
 		if($pass_decode)
 		{
+			#COOKIE EXPIRES IN 60*60 seconda= 1 Hour
 			$_SESSION['user']=$luser;
 	  		header('Location: 10DER.php');
 
 		}
+		else 
+	{
+
+	   	echo "<script>alert('Aww, snap! Your credentials  might be incorrect, Try again!')</script>";
+  
+	}
 
 	} 
 	else 
 	{
 
-	  echo "<script>alert('please enter correct credentials')</script>";
-	  
+	   	echo "<script>alert('Aww, snap! Your credentials  might be incorrect, Try again!')</script>";
+  
 	}
 }
 
