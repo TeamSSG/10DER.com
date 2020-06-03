@@ -210,7 +210,7 @@ if(isset($_POST['login']))
 		{
 			#COOKIE EXPIRES IN 60*60 seconda= 1 Hour
 			$_SESSION['user']=$luser;
-	  		header('Location: 10DER.php');
+	  		header('Location: ProviderBoard.php');
 
 		}
 		else 
