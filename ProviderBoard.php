@@ -4,7 +4,7 @@ if(!isset($_SESSION))
         session_start(); 
     } 
 //IF USER DID NOT LOGIN IN LOCAL SYSTEM
-//$_SESSION['user']='DB_Shirts';
+#$_SESSION['user']='DB_Shirts';
 $user=$_SESSION['user'];
 
 if(!$_SESSION['user'] or $_SESSION['user']=='none')
@@ -41,11 +41,142 @@ include("tender_create.php");
 .carousel-control-prev-icon {
   filter: invert(1);
 }
+
+#close
+{
+	margin: 20px;
+	position:absolute;
+	font-size:large;
+	top:0px;
+	right:0px;
+	background-color:red;
+	border-radius:10px;
+	color:white;
+}
+#step1,#step2
+{
+	border-radius:25px;
+	text-align:left;
+	padding: 20px;
+	width: 90%;
+}
+
+#popover,#popover2
+{
+	position:fixed;
+	top:5%;
+	margin: 10px auto;
+	width: 80%;
+	left: 10%;
+	text-align:center;
+	border-radius: 25px;
+	box-shadow: 2px 2px 10px black;
+	padding: 10px;
+	background-color: white;
+	z-index:10;
+	opacity:0;
+}
+#popover2{opacity:1;}
 </style>
 
 <body>
-  
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<?php   
+$querysimple='select aoi from provider where username="'.$user.'"';
+
+	  $resultsimple=$conn->query($querysimple);
+	  $rowsimple = $resultsimple -> fetch_assoc();
+	  if($rowsimple['aoi']=='')
+	  {
+ echo '
+<div id="popover2" class="bg-light">
+<form action="complete.php" method="POST">
+
+<br>
+<h2>Just a few more steps! <span id="tname"></span></h2>
+
+<h6 id="desc1">Add the following details to complete account setup</h6>
+
+<div class="bg-light" style="margin-up:5px;">
+<div class="container bg-white shadow" id="step1">
+	<div class="form-row">
+	<div class="form-group col-md-6">
+      <label for="inputState">Area of Interest</label>';
+	
+      $myfile = fopen("categories.txt", "r") or die("Unable to open file!");
+// Output one line until end-of-file
+echo '<select name="aoi" class="form-control">';
+while(!feof($myfile)) {
+  echo '<option>'.fgets($myfile) . '</option>';
+}
+fclose($myfile);
+echo '</select>
+
+
+    </div>
+	
+	<div class="form-group col-md-6">
+      <label for="inputState">Bio</label>
+      <input type="text" name="bio" class="form-control" placeholder="Add a catchy bio to attract business!">
+    </div>
+	
+	</div>
+</div>
+
+
+<button id="s2" type="submit" class="btn bbb btn-primary">Done&nbsp;&#10003;</button>
+
+</div>
+</form>
+	  </div>';}
+?>
+    
+<div id="popover" class="bg-light">
+<form id="create_bid" action="#" method="POST">
+<button type="button" id="close">&#10005;</button>
+<br>
+<h2>Bid for <span id="tname"></span></h2>
+
+<h6 id="desc1">Note: Please be careful while filling these details. You can only bid once!</h6>
+
+<div class="bg-light" style="margin-up:5px;">
+<div class="container bg-white shadow" id="step1">
+	
+	<div class="form-row">
+	<div class="form-group col-md-6">
+      <label for="inputState">Tender ID</label>
+      <input type="number" id="aswe" name="tno" class="form-control" placeholder="ERROR: NO SUCH TENDER!">
+    </div>
+	<div class="form-group col-md-6">
+      <label for="inputState">Bidded by</label>
+      <input type="text" id="aswee" name="bidder" class="form-control" placeholder="ERROR: NO SUCH BIDDER!">
+    </div>
+	
+	</div>
+	<div class="form-row">
+	<div class="form-group col-md-6">
+      <label for="inputState">Subject</label>
+      <input type="text" id="subject" name="subject" class="form-control" placeholder="A catchy title to attract the requester">
+    </div>
+	
+	<div class="form-group col-md-6">
+      <label for="inputState">Amount</label>
+      <input type="number" id="flagger" name="amount" class="form-control" placeholder="Quote your amount in &#8377;">
+    </div>
+	
+	</div>
+	<div class="form-group ">
+      <label for="inputPassword4">Description</label>
+      <textarea rows="5" name="description" placeholder="Provide necessary details of why you have quoted this amount, what feature you may provide, etc"class="form-control"></textarea>
+	  </div>
+</div>
+
+
+<button id="s2" type="submit" class="btn bbb btn-primary">Done&nbsp;&#10003;</button>
+
+</div>
+</form>
+</div>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary bodyyy">
   <div class="container-fluid">
  
   <img class="mr-auto rounded" src="images\logo1.jpg" height="40px" width="40px">
@@ -86,7 +217,7 @@ include("tender_create.php");
 
 
 	
-  <div class="container" >
+  <div  class="container" class="bodyyy">
   <div class="container mt-4" class="table-responsive">
     <h2 style="font-family: algerian">Your Ongoing 10ders:-</h2>
     <hr style="display: block;
@@ -103,13 +234,12 @@ include("tender_create.php");
       <col width="300">
       <col width="300">
       <col width="300">
-      <col width="100">
       <thead class="thead-dark">
         <th style="font-family: algerian">10der</th>
         <th style="font-family: algerian">Your Bid</th>
         <th style="font-family: algerian">Your rank</th>
         <th style="font-family: algerian">Closing date</th>
-        <th>    </th>
+        
       </thead>
       <?php
 	  $querypro='SELECT tender.title, tender.end, bid.bidder, bid.amount, RANK() OVER (PARTITION BY bid.tno ORDER BY bid.amount)rank FROM bid
@@ -132,8 +262,7 @@ include("tender_create.php");
         <td style="padding-top: 20px">&#8377; '.$rowpro["amount"].'</td>
         <td style="padding-top: 20px">'.$rowpro["rank"].'</td>
         <td style="padding-top: 20px">'.$rowpro["end"].'</td>
-        <td style="padding-top: 20px"><button type="button" class="btn btn-info"><i>Edit Bid</i></button></td>
-      </tr>';
+              </tr>';
 
 			}
 				
@@ -141,6 +270,9 @@ include("tender_create.php");
 	  }
 	  ?>    </table>
   </div>
+  
+
+
   <hr style="display: block;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -149,7 +281,7 @@ include("tender_create.php");
   border-style: inset;
   border-width: 5px;">
   <div style="padding-bottom: 20px">
-<div class="container-fluid" style="padding-bottom: 20px;border-bottom: 5px solid black">
+<div class="container-fluid" style="padding-bottom: 20px;">
   <h1 style="font-family: oswald"><strong>You may also like:-</strong></h1>
   <div id="myCarousel" align="center" class="carousel slide" data-ride="carousel">
     <div align="center" class="carousel-inner row w-100 mx-auto">
@@ -172,7 +304,7 @@ include("tender_create.php");
 	$a=$a."'";
 	if($a!="''")
 	{
-		$youmaylike="select title,start,end,description from tender where 1 and aoi in (".$a.") and start<CURDATE() and end>CURDATE()";
+		$youmaylike="select tno,title,start,end,description from tender where 1 and aoi in (".$a.") and start<CURDATE() and end>CURDATE()";
 		$resultlike=$conn->query($youmaylike);
 		if($resultlike===false||mysqli_num_rows($resultlike)==0)
 		{
@@ -197,7 +329,7 @@ include("tender_create.php");
 					else echo '<div style="margin: auto;" class="carousel-item col-md-4">';
 					echo '<div class="card">
           <div class="card-body">
-            <h4 class="card-title" style="font-family: algerian"><strong>'.$rowlike['title'].'</strong></h4>
+            <h4 class="card-title" style="font-family: algerian"><strong><a class="acter" href="">#'.$rowlike['tno'].': '.$rowlike['title'].'</a></strong></h4>
             <p class="card-text">'.$rowlike['description'].'</p>
             <p class="card-text"><small class="text-muted">Last date: '.$rowlike['end'].'</small></p>
           </div>
@@ -205,6 +337,20 @@ include("tender_create.php");
       </div>';
 				}
 		}
+	}
+	else
+	{
+			echo '<div style="margin: auto;" class="carousel-item col-md-4 active">
+        <div class="card">
+		
+          <div class="card-body">
+            <h4 class="card-title" style="font-family: algerian"><strong>Oops!</strong></h4>
+            <p  class="card-text">We cant find any tenders of your area of interest. Hang in there, our service providers are busy lining up their demands!</p>
+            <p class="card-text"><small class="text-muted">Come back later for more!</small></p>
+          </div> 
+        </div>
+      </div>';
+      
 	}
 	?>      
     </div>
@@ -221,7 +367,7 @@ include("tender_create.php");
 </div>
 </div>
 
-<footer class="page-footer font-small mdb-color pt-4 bg-dark text-white">
+<footer class="page-footer font-small mdb-color pt-4 bg-dark text-white bodyyy">
 
   <!-- Footer Links -->
   <div class="container text-center text-md-left">
@@ -358,6 +504,12 @@ include("tender_create.php");
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 	 <script type="text/javascript">
     $(document).ready(function() {
+		$("#step").hide();
+$("#popover").hide();
+
+$(".bodyyy").fadeIn("100");
+
+
   $("#myCarousel").on("slide.bs.carousel", function(e) {
     var $e = $(e.relatedTarget);
     var idx = $e.index();
@@ -380,7 +532,46 @@ include("tender_create.php");
       }
     }
   });
+  
+  $(".acter").click(function(event){
+ event.preventDefault();
+ $("#tname").text($(this).text().split(":")[1]);
+ $("#aswee").val('<?php echo $_SESSION['user'];?>'); 
+ $("#aswe").val($(this).text().split(":")[0].split("#")[1]);
+ $("#aswe").prop("disabled", true)
+ $("#aswee").prop("disabled", true)
+ 	$("#s2").show();
+	$("#desc1").show();
+	$("#step1").show();
+	$("#popover").css("opacity","1");
+	$(".bodyyy").fadeTo("slow",0.25);
+	$("#popover").fadeIn("slow");
+
+ 
+	});
+	
+
+
+$("#close").click(function()
+{
+	console.log("hi");
+	$(".bodyyy").fadeTo("slow",1);
+	$("#popover").fadeOut("slow");
+});
+
+$("#s2").click(function()
+{
+	//console.log("hi");
+	$(".bodyyy").fadeTo("slow",1);
+	$("#popover").fadeOut("slow");
+});
+
+
+  
+
 });
   </script>
+  
+<script src=".\js\pb_bid.js" type="text/javascript"></script>
 </body>
 </html>

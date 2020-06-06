@@ -144,12 +144,16 @@ Yours sincerely
   
   <div class="form-group">
       <label for="inputState">Tender Category</label>
-      <select id="category" name="categ" class="form-control">
-        <option selected>Choose...</option>
-        <option>CLO- Clothing</option>
-		<option>FUR- Furniture</option>
-
-      </select>
+	  <?php 
+      $myfile = fopen("categories.txt", "r") or die("Unable to open file!");
+// Output one line until end-of-file
+echo '<select name="categ" class="form-control">';
+while(!feof($myfile)) {
+  echo '<option>'.fgets($myfile) . '</option>';
+}
+fclose($myfile);
+echo '</select>';
+?>
     </div>
 	<div class="form-row">
 	<div class="form-group col-md-6">

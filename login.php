@@ -101,6 +101,11 @@ if(isset($_COOKIE['user']))
 <?php
 
 //////////////for signup//////////////////////
+
+
+
+   
+   
 if(isset($_POST['sign_up']))
 {
 	$user=$_POST['sname'];
@@ -121,8 +126,8 @@ if(isset($_POST['sign_up']))
 		echo "<script>alert('username already taken')</script>";
 	}
 	else
-	{
-		if($password===$cpassword)
+		
+	{	 if($password===$cpassword)
 		{
 			
 				$insertquery="INSERT INTO $category(username,password, mobile, email) VALUES ('$user','$pass','$mobile','$email')";
@@ -157,9 +162,6 @@ if(isset($_POST['sign_up']))
 	}
 
 }
-
-
-
 
 
 

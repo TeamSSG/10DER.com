@@ -94,7 +94,7 @@ include("connection.php");
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto ml-4">
       <li class="nav-item active">
-        <a class="nav-link" href="<?php if(!$_SESSION['user'] or $_SESSION['user']=='none'){echo "10DER.php";}else{echo "RequesterBoard.php";}?>"><?php if(!$_SESSION['user'] or $_SESSION['user']=='none'){echo "Home";}else{echo $_SESSION['user'];}?> <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="<?php if(!$_SESSION['user'] or $_SESSION['user']=='none'){echo "10DER.php";}else{if($_COOKIE['category']=='requester')echo "RequesterBoard.php";else echo "ProviderBoard.php";}?>"><?php if(!$_SESSION['user'] or $_SESSION['user']=='none'){echo "Home";}else{echo $_SESSION['user'];}?> <span class="sr-only">(current)</span></a>
       </li>
   </ul>
   	 <form class="form-inline my-2 my-lg-0 mr-auto frm">
